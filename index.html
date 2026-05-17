@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=yes">
+  <title>2Face | Believe In Your Self & Go Your Way</title>
+  <meta name="description" content="2Face - Electronic Music Producer & DJ. Experience the future of sound.">
+  <!-- Font Awesome 6 -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700;14..32,800&family=Orbitron:wght@400;600;800;900&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+    body { background-color: #05050F; font-family: 'Inter', sans-serif; color: #ffffff; overflow-x: hidden; cursor: default; }
+    
+    /* CUSTOM CURSOR - FIXED & WORKING */
+    @media (min-width: 1024px) {
+      body { cursor: none; }
+      .cursor {
+        width: 12px;
+        height: 12px;
+        background: #bf4eff;
+        border-radius: 50%;
+        position: fixed;
+        pointer-events: none;
+        z-index: 9999;
+        transition: transform 0.1s ease;
+        box-shadow: 0 0 15px #bf4eff;
+      }
+      .cursor-follower {
+        width: 32px;
+        height: 32px;
+        border: 2px solid #00f7ff;
+        border-radius: 50%;
+        position: fixed;
+        pointer-events: none;
+        z-index: 9998;
+        transition: transform 0.2s cubic-bezier(0.23, 1, 0.32, 1);
+      }
+    }
+    
+    .preloader { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #03030c; display: flex; justify-content: center; align-items: center; z-index: 10000; transition: opacity 0.8s ease; }
+    .loader-text { font-family: 'Orbitron', monospace; font-size: 1.4rem; letter-spacing: 4px; text-align: center; padding: 1rem; background: linear-gradient(45deg, #ff33cc, #00e0ff, #ff33cc); -webkit-background-clip: text; background-clip: text; color: transparent; animation: pulseGlow 1.2s infinite; }
+    @keyframes pulseGlow { 0% { opacity: 0.5; } 100% { opacity: 1; text-shadow: 0 0 20px #bf4eff; } }
+    html { scroll-behavior: smooth; }
+    .navbar { position: sticky; top: 0; backdrop-filter: blur(16px); background: rgba(5, 5, 20, 0.85); z-index: 1000; padding: 0.75rem 1rem; border-bottom: 1px solid rgba(0, 255, 255, 0.3); }
+    .nav-container { max-width: 1400px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; }
+    .logo { font-family: 'Orbitron', monospace; font-weight: 800; font-size: 1.5rem; background: linear-gradient(135deg, #fff, #a55eff); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .nav-links { display: flex; gap: 1.2rem; list-style: none; }
+    .nav-links a { text-decoration: none; color: #f0f0ff; font-weight: 500; transition: 0.2s; font-size: 0.9rem; padding: 0.4rem 0; }
+    .nav-links a:hover { color: #0ff; text-shadow: 0 0 6px #0ff; }
+    .menu-toggle { display: none; font-size: 1.6rem; cursor: pointer; color: #0ff; }
+    #particles-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2; pointer-events: none; }
+    section { padding: 60px 1.2rem; max-width: 1400px; margin: 0 auto; position: relative; }
+    .section-title { font-size: 2rem; font-family: 'Orbitron', monospace; margin-bottom: 1.5rem; background: linear-gradient(120deg, #fff, #bf4eff, #0ff); -webkit-background-clip: text; background-clip: text; color: transparent; display: inline-block; letter-spacing: -0.5px; }
+    .hero { min-height: 85vh; display: flex; align-items: center; justify-content: center; text-align: center; flex-direction: column; padding: 40px 1rem; }
+    .hero-content h1 { font-size: clamp(2.8rem, 12vw, 5.5rem); font-family: 'Orbitron', monospace; font-weight: 900; letter-spacing: 3px; text-shadow: 0 0 20px #bf4eff, 0 0 40px #0ff; animation: fadeUp 0.8s ease; }
+    .hero-content p { font-size: 1.2rem; margin: 1rem 0; opacity: 0.9; }
+    .btn-group { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-top: 1.5rem; }
+    .btn { background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(6px); border: 1px solid rgba(0, 255, 255, 0.6); padding: 10px 20px; border-radius: 40px; font-weight: bold; text-decoration: none; color: white; transition: 0.2s; cursor: pointer; display: inline-block; font-size: 0.9rem; text-align: center; }
+    .btn-primary { background: linear-gradient(45deg, #bf4eff, #0ff); border: none; box-shadow: 0 0 12px #bf4eff; }
+    .btn:active { transform: scale(0.96); }
+    .glass-card { background: rgba(20, 20, 40, 0.55); backdrop-filter: blur(12px); border-radius: 1.5rem; border: 1px solid rgba(0, 255, 255, 0.25); transition: all 0.3s; padding: 1.2rem; }
+    .stats-grid, .music-grid, .video-grid, .gallery-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 1.2rem; margin-top: 1.5rem; }
+    .stat-item { text-align: center; font-size: 1.2rem; font-weight: bold; padding: 1rem; }
+    .stat-number { font-size: 2.2rem; font-family: 'Orbitron'; color: #0ff; }
+    .track-title { font-size: 1.2rem; font-weight: bold; margin-bottom: 0.3rem; }
+    audio { width: 100%; margin: 0.8rem 0; border-radius: 40px; height: 45px; }
+    .download-btn, .like-btn { background: none; border: 1px solid #0ff; padding: 5px 10px; border-radius: 40px; color: white; margin-right: 6px; cursor: pointer; transition: 0.2s; font-size: 0.75rem; }
+    .like-btn.liked { color: #ff3388; border-color: #ff3388; }
+    .waveform-equalizer { display: flex; gap: 3px; align-items: center; justify-content: center; height: 32px; margin-top: 6px; }
+    .wave-bar { width: 4px; background: #0ff; height: 8px; border-radius: 2px; transition: height 0.05s; }
+    .gallery-img { width: 100%; aspect-ratio: 1 / 0.9; object-fit: cover; border-radius: 1rem; transition: transform 0.3s; cursor: pointer; }
+    .gallery-img:active { transform: scale(0.98); }
+    .lightbox { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 2000; display: flex; justify-content: center; align-items: center; visibility: hidden; opacity: 0; transition: 0.2s; }
+    .lightbox.active { visibility: visible; opacity: 1; }
+    .lightbox img { max-width: 90%; max-height: 80%; border-radius: 20px; }
+    .contact-form input, .contact-form textarea, .contact-form select { width: 100%; background: rgba(255,255,255,0.08); border: 1px solid #0ff; padding: 12px 16px; border-radius: 40px; margin-bottom: 1rem; color: white; font-size: 0.9rem; }
+    .contact-form select option { background: #05050F; color: white; }
+    .social-icons a { color: white; font-size: 1.8rem; margin-right: 18px; transition: 0.2s; display: inline-block; }
+    .social-icons a:active { color: #0ff; transform: scale(0.94); }
+    footer { background: rgba(0,0,0,0.8); text-align: center; padding: 1.5rem; border-top: 1px solid #0ff; }
+    .phone-number { display: flex; align-items: center; gap: 0.8rem; padding: 0.7rem; background: rgba(0, 255, 255, 0.1); border-radius: 1rem; margin-bottom: 0.8rem; transition: 0.2s; flex-wrap: wrap; }
+    .quick-contact-buttons { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 1rem; }
+    .quick-contact-buttons .btn { padding: 8px 14px; font-size: 0.8rem; }
+    .video-card { cursor: pointer; }
+    .video-thumbnail { position: relative; border-radius: 1rem; overflow: hidden; margin-bottom: 0.8rem; }
+    .video-thumbnail img { width: 100%; aspect-ratio: 16/9; object-fit: cover; transition: transform 0.2s; display: block; }
+    .video-card:active .video-thumbnail img { transform: scale(1.02); }
+    .play-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); display: flex; align-items: center; justify-content: center; }
+    .play-btn { width: 55px; height: 55px; background: rgba(0, 255, 255, 0.9); border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: all 0.2s; box-shadow: 0 0 15px rgba(0,255,255,0.5); }
+    .play-btn i { font-size: 24px; color: white; margin-left: 4px; }
+    .video-title-text { text-align: center; margin-top: 0.3rem; font-size: 0.85rem; font-weight: 500; }
+    @media (max-width: 768px) { 
+      .nav-links { display: none; flex-direction: column; width: 100%; text-align: center; background: rgba(5,5,20,0.95); backdrop-filter: blur(12px); padding: 1rem; border-radius: 1.2rem; margin-top: 0.8rem; gap: 0.8rem; } 
+      .nav-links.active { display: flex; } 
+      .menu-toggle { display: block; } 
+      .stats-grid { grid-template-columns: 1fr 1fr; gap: 0.8rem; }
+      .music-grid, .video-grid, .gallery-grid { grid-template-columns: 1fr; }
+      .stats-grid .stat-item:last-child { grid-column: span 2; }
+      .play-btn { width: 48px; height: 48px; }
+      .play-btn i { font-size: 20px; }
+      .section-title { font-size: 1.8rem; }
+      .hero-content p { font-size: 1rem; }
+      #about > div { grid-template-columns: 1fr !important; gap: 1.5rem; }
+      #contact > div { grid-template-columns: 1fr !important; gap: 1.5rem; }
+      .phone-number { flex-direction: column; align-items: flex-start; gap: 0.3rem; }
+      .btn-group .btn { padding: 8px 16px; font-size: 0.8rem; }
+      .glass-card { padding: 1rem; }
+      .cursor, .cursor-follower { display: none !important; }
+      body { cursor: auto; }
+    }
+    @media (max-width: 480px) {
+      section { padding: 45px 1rem; }
+      .stat-number { font-size: 1.8rem; }
+      .logo { font-size: 1.3rem; }
+    }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+    .fallback-image { background: linear-gradient(135deg, #bf4eff, #0ff); display: flex; align-items: center; justify-content: center; color: white; font-size: 1.4rem; font-family: 'Orbitron', monospace; aspect-ratio: 1/0.9; border-radius: 1rem; text-align: center; }
+  </style>
+</head>
+<body>
+
+<div class="preloader" id="preloader"><div class="loader-text">2FACE // Believe In Your Self & Go Your way</div></div>
+<div class="cursor"></div>
+<div class="cursor-follower"></div>
+<canvas id="particles-canvas"></canvas>
+
+<nav class="navbar">
+  <div class="nav-container">
+    <div class="logo">2FACE</div>
+    <div class="menu-toggle" id="mobile-menu"><i class="fas fa-bars"></i></div>
+    <ul class="nav-links" id="nav-links">
+      <li><a href="#home">Home</a></li><li><a href="#about">About</a></li><li><a href="#music">Music</a></li>
+      <li><a href="#videos">Videos</a></li><li><a href="#gallery">Gallery</a></li><li><a href="#contact">Contact</a></li>
+    </ul>
+  </div>
+</nav>
+
+<main>
+  <section id="home" class="hero">
+    <div class="hero-content">
+      <h1>2FACE</h1>
+      <p id="heroTagline">Believe In Your Self & Go Your Way</p>
+      <div class="btn-group">
+        <a href="#music" class="btn btn-primary">Listen Now</a>
+        <a href="#videos" class="btn">Watch Live</a>
+        <a href="#music" class="btn">Download Tracks</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="about">
+    <h2 class="section-title" id="aboutTitle">// ARTIST IDENTITY</h2>
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
+      <div class="glass-card">
+        <p style="font-size: 1rem; line-height: 1.45" id="artistBio"></p>
+      </div>
+      <div class="glass-card">
+        <img id="artistImage" src="" alt="2Face Artist" style="width:100%; border-radius: 24px; object-fit: cover;" onerror="this.onerror=null; this.src='https://placehold.co/600x600/1a1a3a/bf4eff?text=2FACE';">
+      </div>
+    </div>
+    <div class="stats-grid">
+      <div class="stat-item glass-card"><div class="stat-number" id="statLiveShows">0</div><span>Live Shows</span></div>
+      <div class="stat-item glass-card"><div class="stat-number" id="statTracks">0</div><span>Tracks Released</span></div>
+      <div class="stat-item glass-card"><div class="stat-number" id="statFollowers">0</div><span>K+ Subscribers</span></div>
+      <div class="stat-item glass-card"><div class="stat-number" id="statYears">0</div><span>Years Experience</span></div>
+    </div>
+  </section>
+
+  <section id="music">
+    <h2 class="section-title" id="musicTitle">// LATEST RELEASES</h2>
+    <div class="music-grid" id="music-grid"></div>
+  </section>
+
+  <section id="videos">
+    <h2 class="section-title" id="videosTitle">// TOP TRACKS</h2>
+    <div class="video-grid" id="video-grid"></div>
+  </section>
+
+  <section id="gallery">
+    <h2 class="section-title" id="galleryTitle">// MY GALLERY</h2>
+    <div class="gallery-grid" id="gallery-grid"></div>
+  </section>
+
+  <section id="contact">
+    <h2 class="section-title">// CONNECT</h2>
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
+      <div class="glass-card">
+        <h3 style="color: #0ff; margin-bottom: 1rem; font-size: 1.2rem;">📞 Direct Contact</h3>
+        <div style="background: rgba(0, 255, 255, 0.08); border-radius: 1rem; padding: 0.8rem; margin-bottom: 1.2rem;">
+          <div class="phone-number">
+            <i class="fas fa-phone-alt" style="font-size: 1.3rem; color: #0ff;"></i>
+            <div><strong style="color: #0ff;">Booking & Management:</strong><br><a href="tel:+94778667478" id="phoneLink" style="color: white; text-decoration: none; font-size: 1rem;">+94 77 866 7478</a></div>
+          </div>
+          <div class="phone-number">
+            <i class="fab fa-whatsapp" style="font-size: 1.3rem; color: #25D366;"></i>
+            <div><strong style="color: #25D366;">WhatsApp Business:</strong><br><a href="https://wa.me/94778667478" id="waLink" target="_blank" rel="noopener noreferrer" style="color: white; text-decoration: none;">+94 77 866 7478</a></div>
+          </div>
+          <div class="phone-number">
+            <i class="fas fa-envelope" style="font-size: 1.3rem; color: #ff3388;"></i>
+            <div><strong>Email:</strong><br><a href="mailto:2facecontactus@gmail.com" id="emailLink" style="color: white;">2facecontactus@gmail.com</a></div>
+          </div>
+        </div>
+        <h3 style="margin-bottom: 0.8rem; font-size: 1.1rem;">📝 Send Message</h3>
+        <form id="contactForm" class="contact-form">
+          <input type="text" id="contactName" placeholder="Your Name" required>
+          <input type="email" id="contactEmail" placeholder="Email" required>
+          <input type="tel" id="contactPhone" placeholder="Your Phone Number (optional)">
+          <select id="contactSubject">
+            <option value="booking">Booking Inquiry</option>
+            <option value="collab">Collaboration</option>
+            <option value="press">Press/Media</option>
+            <option value="other">Other</option>
+          </select>
+          <textarea id="contactMessage" rows="3" placeholder="Your message..."></textarea>
+          <button type="submit" class="btn btn-primary">Send Message</button>
+        </form>
+        <div class="quick-contact-buttons">
+          <button onclick="window.makeCallBtn()" class="btn" style="margin: 3px 0;"><i class="fas fa-phone"></i> Call Now</button>
+          <button onclick="window.sendWABtn()" class="btn" style="margin: 3px 0; background: #25D366;"><i class="fab fa-whatsapp"></i> WhatsApp</button>
+          <button onclick="window.copyPhoneBtn()" class="btn" style="margin: 3px 0;"><i class="fas fa-copy"></i> Copy Number</button>
+        </div>
+        <div class="social-icons" style="margin-top: 1.8rem;" id="socialLinks"></div>
+      </div>
+      <div class="glass-card">
+        <h3 style="color: #0ff; margin-bottom: 1rem;">📍 Booking Office</h3>
+        <div style="margin-bottom: 1rem;"><p><i class="fas fa-map-marker-alt"></i> <strong>Address:</strong><br id="mapAddressText">Mawaramandiya, Sri Lanka</p></div>
+        <div style="margin-bottom: 1.2rem;"><h4 style="color: #ff3388; font-size: 1rem;">🕒 Business Hours</h4><p style="font-size: 0.85rem;">Monday - Friday: 10:00 AM - 7:00 PM (IST)<br>Saturday: 12:00 PM - 5:00 PM<br>Sunday: Closed</p></div>
+        <iframe id="googleMap" title="Google Maps Location" src="" width="100%" height="700" style="border:0; border-radius: 20px;" allowfullscreen loading="lazy"></iframe>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="logo" style="font-size: 1.3rem;">2FACE</div>
+  <p id="copyright">© 2026 2Face | Believe In Your Self & Go Your Way</p>
+  <div style="margin-top: 1rem; display: flex; justify-content: center; flex-wrap: wrap; gap: 8px;">
+    <input type="email" id="newsEmail" placeholder="Your email for exclusive mixes">
+    <button id="newsBtn" class="btn" style="padding:8px 18px;">Subscribe</button>
+  </div>
+</footer>
+
+<div id="lightbox" class="lightbox"><img id="lightbox-img" src="" alt="Lightbox"><span style="position:absolute; top:20px; right:30px; font-size:38px; cursor:pointer; color:white;">&times;</span></div>
+
+<script>
+(function() {
+  // ============================================================
+  // ⭐ CUSTOMIZABLE SECTION - UPDATE THESE VALUES AS NEEDED ⭐
+  // ============================================================
+  
+  // 1. ARTIST IDENTITY (bio text & profile image URL)
+  const artistBioText = "I am Dileepa Kaushal Prabath. First came to this field in 2020. First started remixing tracks on Laptop. After that I started doing my work with Fl Studio software. I am still learning about these. I love underground music. I am learning about them too. My only hope is to have a good journey through this field.🤍📌";
+  const artistImageURL = "https://files.catbox.moe/vavcmj.jpg";   // Replace with your artist photo link
+  
+  // 2. STATS NUMBERS (Live Shows, Tracks Released, K+ Subscribers, Years Experience)
+  const statsData = {
+    liveShows: 14,          // Live Shows count
+    tracksReleased: 27,     // Tracks Released
+    followers: 7.58,        // K+ Subscribers (example: 15.2 = 15.2K)
+    yearsExperience: 7,     // Years Experience
+  };
+  
+  // 3. LATEST RELEASES (Music Tracks)
+  const TRACKS = [
+    { title: "Cheri Cheri Lady - 2Face", genre: "Tech House", duration: "5:36", src: "https://files.catbox.moe/sos2k7.mp3", download: "https://files.catbox.moe/sos2k7.mp3" },
+    { title: "La Isla Bonita - 2Face", genre: "Progressive House", duration: "4:38", src: "https://files.catbox.moe/huburw.mp3", download: "https://files.catbox.moe/huburw.mp3" },
+    { title: "Athma Rama - 2Face", genre: "Tech House", duration: "7:04", src: "https://files.catbox.moe/klvmsd.mp3", download: "https://files.catbox.moe/klvmsd.mp3" },
+    { title: "Image - 2Face", genre: "Tech + Progressive", duration: "8:19", src: "https://files.catbox.moe/tfffi5.mp3", download: "https://files.catbox.moe/tfffi5.mp3" } // optional extra track
+  ];
+  
+  // 4. LIVE PERFORMANCES (YouTube Video IDs & Titles)
+  const VIDEOS = [
+    { videoId: "Sm4GVaoWa1Y", title: "O Rendu Prema Remix - 2Face" },
+    { videoId: "Q9qqYckLcyc", title: "Interstellar Remix - 2Face" },
+    { videoId: "zo0R_wqJiA4", title: "Secret Love - 2Face" }
+  ];
+  
+  // 5. VISUAL EXPERIENCE (Gallery Images URLs)
+  const GALLERY_IMAGES = [
+    "https://files.catbox.moe/lwo0kr.jpeg",
+    "https://files.catbox.moe/lqx9hx.jpeg",
+    "https://files.catbox.moe/18cqfa.jpeg",
+    "https://files.catbox.moe/eacjxt.jpg"
+  ];
+  
+  // 6. GOOGLE MAP & ADDRESS
+  const MAP_EMBED_URL = "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d7920.3052063161595!2d79.96912694476079!3d6.991300321131164!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ae2f8835e705fd7%3A0xd17ef35508c5b207!2sMawaramandiya!5e0!3m2!1sen!2slk!4v1778963298794!5m2!1sen!2slk"; // change location here
+  const MAP_ADDRESS_TEXT = "Mawaramandiya, Sri Lanka";   // change address display
+  
+  // 7. CONTACT DETAILS (Phone, Email)
+  const MY_PHONE = "+94778667478";
+  const MY_EMAIL = "2facecontactus@gmail.com";
+  
+  // 8. SOCIAL LINKS
+  const SOCIAL_LINKS = [
+    { platform: "instagram", url: "https://www.instagram.com/dileepa_2f", icon: "fab fa-instagram" },
+    { platform: "tiktok", url: "https://www.tiktok.com/@dileepakaushal", icon: "fab fa-tiktok" },
+    { platform: "youtube", url: "https://www.youtube.com/@2FaceDjzDileepa", icon: "fab fa-youtube" },
+    { platform: "facebook", url: "https://www.facebook.com/share/1BuWcV3dD6/", icon: "fab fa-facebook" },
+    { platform: "soundcloud", url: "https://soundcloud.com/djzdileepa", icon: "fab fa-soundcloud" }
+  ];
+  
+  // ========== END OF CUSTOMIZABLE DATA ==========
+  
+  // Apply Artist Identity
+  document.getElementById('artistBio').innerText = artistBioText;
+  const artistImg = document.getElementById('artistImage');
+  if(artistImg) artistImg.src = artistImageURL;
+  
+  // Apply Stats with animation data attributes
+  const liveShowsEl = document.getElementById('statLiveShows');
+  const tracksEl = document.getElementById('statTracks');
+  const followersEl = document.getElementById('statFollowers');
+  const yearsEl = document.getElementById('statYears');
+  
+  liveShowsEl.setAttribute('data-count', statsData.liveShows);
+  tracksEl.setAttribute('data-count', statsData.tracksReleased);
+  followersEl.setAttribute('data-count', statsData.followers);
+  yearsEl.setAttribute('data-count', statsData.yearsExperience);
+  
+  // Map update
+  const mapFrame = document.getElementById('googleMap');
+  if(mapFrame) mapFrame.src = MAP_EMBED_URL;
+  const addressSpan = document.getElementById('mapAddressText');
+  if(addressSpan) addressSpan.innerText = MAP_ADDRESS_TEXT;
+  
+  // Update contact info consistency
+  const phoneLink = document.getElementById('phoneLink');
+  if(phoneLink) phoneLink.href = `tel:${MY_PHONE}`;
+  const waLink = document.getElementById('waLink');
+  if(waLink) waLink.href = `https://wa.me/${MY_PHONE.replace('+','')}`;
+  const emailLinkElem = document.getElementById('emailLink');
+  if(emailLinkElem) emailLinkElem.href = `mailto:${MY_EMAIL}`;
+  
+  // Build Music Grid
+  const musicGrid = document.getElementById('music-grid');
+  function buildMusic(){
+    if(!musicGrid) return;
+    musicGrid.innerHTML = '';
+    TRACKS.forEach((track, idx) => {
+      const card = document.createElement('div');
+      card.className = 'glass-card music-card';
+      card.innerHTML = `
+        <div class="track-title">${escapeHtml(track.title)}</div>
+        <div style="font-size:0.8rem; opacity:0.8;">${escapeHtml(track.genre)} • ${track.duration}</div>
+        <audio controls preload="metadata" class="audio-player">
+          <source src="${track.src}" type="audio/mpeg">
+        </audio>
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap;">
+          <div><button class="download-btn" data-url="${escapeHtml(track.download)}"><i class="fas fa-download"></i> MP3</button>
+          <button class="like-btn"><i class="far fa-heart"></i> Like</button></div>
+          <div class="waveform-equalizer" id="eq-${idx}"></div>
+        </div>
+      `;
+      musicGrid.appendChild(card);
+    });
+    document.querySelectorAll('.download-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const url = btn.getAttribute('data-url');
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = '';
+        a.target = '_blank';
+        a.click();
+      });
+    });
+    document.querySelectorAll('.like-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        btn.classList.toggle('liked');
+        btn.querySelector('i').className = btn.classList.contains('liked') ? 'fas fa-heart' : 'far fa-heart';
+      });
+    });
+    document.querySelectorAll('.audio-player').forEach((audio, idx) => {
+      const eqDiv = document.getElementById(`eq-${idx}`);
+      if(eqDiv) {
+        for(let i=0;i<10;i++){ const bar = document.createElement('div'); bar.className = 'wave-bar'; eqDiv.appendChild(bar); }
+        let interval;
+        audio.addEventListener('play', () => {
+          if(interval) clearInterval(interval);
+          interval = setInterval(() => {
+            if(audio.paused) return;
+            const bars = eqDiv.children;
+            for(let i=0;i<bars.length;i++) bars[i].style.height = `${Math.random()*20+5}px`;
+          }, 130);
+        });
+        audio.addEventListener('pause', () => clearInterval(interval));
+        audio.addEventListener('ended', () => clearInterval(interval));
+      }
+    });
+  }
+  buildMusic();
+  
+  // Build Live Performances (Videos)
+  const videoGrid = document.getElementById('video-grid');
+  function playVideoCard(card, videoId){
+    const iframe = document.createElement('iframe');
+    iframe.width = '100%';
+    iframe.style.aspectRatio = '16/9';
+    iframe.style.borderRadius = '1rem';
+    iframe.style.border = 'none';
+    iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1`;
+    iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
+    iframe.allowFullscreen = true;
+    const thumbDiv = card.querySelector('.video-thumbnail');
+    if(thumbDiv) thumbDiv.parentNode.replaceChild(iframe, thumbDiv);
+  }
+  function buildVideos(){
+    if(!videoGrid) return;
+    videoGrid.innerHTML = '';
+    VIDEOS.forEach(v => {
+      const card = document.createElement('div');
+      card.className = 'glass-card video-card';
+      card.setAttribute('data-id', v.videoId);
+      card.addEventListener('click', (e) => {
+        if(e.target.closest('.video-title-text')) return;
+        const vid = card.getAttribute('data-id');
+        playVideoCard(card, vid);
+      });
+      const thumbUrl = `https://img.youtube.com/vi/${v.videoId}/maxresdefault.jpg`;
+      const fallback = `https://img.youtube.com/vi/${v.videoId}/hqdefault.jpg`;
+      card.innerHTML = `
+        <div class="video-thumbnail">
+          <img src="${thumbUrl}" onerror="this.src='${fallback}'" alt="${escapeHtml(v.title)}" loading="lazy">
+          <div class="play-overlay"><div class="play-btn"><i class="fas fa-play"></i></div></div>
+        </div>
+        <div class="video-title-text">${escapeHtml(v.title)}</div>
+      `;
+      videoGrid.appendChild(card);
+    });
+  }
+  buildVideos();
+  
+  // Build Gallery
+  const galleryGrid = document.getElementById('gallery-grid');
+  if(galleryGrid){
+    galleryGrid.innerHTML = '';
+    GALLERY_IMAGES.forEach(src => {
+      const div = document.createElement('div');
+      div.innerHTML = `<img class="gallery-img" src="${src}" alt="2Face gallery" loading="lazy" onerror="this.onerror=null; this.parentElement.innerHTML='<div class=\\'fallback-image\\'><i class=\\'fas fa-image\\'></i> 2FACE</div>';">`;
+      galleryGrid.appendChild(div);
+    });
+  }
+  
+  // Lightbox logic
+  const lightbox = document.getElementById('lightbox');
+  const lightboxImg = document.getElementById('lightbox-img');
+  if(lightbox && lightboxImg){
+    document.addEventListener('click', (e) => {
+      if(e.target.classList && e.target.classList.contains('gallery-img')){
+        lightboxImg.src = e.target.src;
+        lightbox.classList.add('active');
+      }
+    });
+    const closeSpan = document.querySelector('#lightbox span');
+    if(closeSpan) closeSpan.onclick = () => lightbox.classList.remove('active');
+    lightbox.onclick = (e) => { if(e.target === lightbox) lightbox.classList.remove('active'); };
+  }
+  
+  // Stats animation with Intersection Observer
+  let animated = false;
+  function animateStats(){
+    if(animated) return;
+    animated = true;
+    const statsNumbers = document.querySelectorAll('.stat-number');
+    statsNumbers.forEach(el => {
+      const target = parseFloat(el.getAttribute('data-count'));
+      if(isNaN(target)) return;
+      let current = 0;
+      const step = target / 50;
+      const upd = setInterval(() => {
+        current += step;
+        if(current >= target) { 
+          el.innerText = target % 1 === 0 ? target : target.toFixed(1); 
+          clearInterval(upd); 
+        }
+        else el.innerText = Math.floor(current);
+      }, 25);
+    });
+  }
+  const statsSection = document.querySelector('.stats-grid');
+  if(statsSection){
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => { if(entry.isIntersecting) { animateStats(); observer.unobserve(entry.target); } });
+    }, {threshold: 0.3});
+    observer.observe(statsSection);
+  }
+  
+  // Contact form & newsletter
+  const contactForm = document.getElementById('contactForm');
+  if(contactForm){
+    contactForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const name = document.getElementById('contactName')?.value || 'Fan';
+      alert(`Thank you ${name}! We'll get back to you soon.`);
+      e.target.reset();
+    });
+  }
+  const newsBtn = document.getElementById('newsBtn');
+  if(newsBtn){
+    newsBtn.addEventListener('click', () => {
+      const email = document.getElementById('newsEmail')?.value;
+      if(email && email.includes('@')) alert(`✅ Subscribed! ${email} will receive exclusive mixes.`);
+      else alert('Please enter a valid email address.');
+    });
+  }
+  
+  // Social links render
+  const socialCont = document.getElementById('socialLinks');
+  if(socialCont) {
+    socialCont.innerHTML = '';
+    SOCIAL_LINKS.forEach(link => {
+      const a = document.createElement('a');
+      a.href = link.url;
+      a.target = "_blank";
+      a.rel = "noopener noreferrer";
+      a.innerHTML = `<i class="${link.icon}"></i>`;
+      socialCont.appendChild(a);
+    });
+  }
+  
+  function escapeHtml(str){ if(!str) return ''; return str.replace(/[&<>]/g, function(m){ if(m==='&') return '&amp;'; if(m==='<') return '&lt;'; if(m==='>') return '&gt;'; return m;}); }
+  
+  // Global helper functions for buttons
+  window.makeCallBtn = () => { window.location.href = `tel:${MY_PHONE}`; };
+  window.sendWABtn = () => { window.open(`https://wa.me/${MY_PHONE.replace('+','')}?text=${encodeURIComponent("Hi 2Face! I'm interested in booking.")}`, '_blank'); };
+  window.copyPhoneBtn = () => {
+    navigator.clipboard.writeText(MY_PHONE).then(() => {
+      const toast = document.createElement('div');
+      toast.textContent = '✓ Phone number copied!';
+      toast.style.cssText = 'position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#0ff;color:#000;padding:8px 18px;border-radius:40px;z-index:9999;font-weight:bold;';
+      document.body.appendChild(toast);
+      setTimeout(() => toast.remove(), 1800);
+    }).catch(() => alert('Could not copy'));
+  };
+  
+  // Preloader fade out
+  window.addEventListener('load', () => {
+    setTimeout(() => {
+      const pre = document.getElementById('preloader');
+      if(pre){ pre.style.opacity = '0'; setTimeout(() => pre.style.display = 'none', 600); }
+    }, 700);
+  });
+  
+  // Particles background
+  const pCanvas = document.getElementById('particles-canvas');
+  if(pCanvas){
+    const ctx = pCanvas.getContext('2d');
+    let parts = [];
+    function resizeCanvas(){ pCanvas.width = window.innerWidth; pCanvas.height = window.innerHeight; }
+    function initParts(){
+      parts = [];
+      const count = Math.min(70, Math.floor(window.innerWidth/15));
+      for(let i=0;i<count;i++) parts.push({ x: Math.random()*pCanvas.width, y: Math.random()*pCanvas.height, radius: Math.random()*2+1, alpha: Math.random()*0.4, speedX: (Math.random()-0.5)*0.4, speedY: (Math.random()-0.5)*0.15 });
+    }
+    function animateParts(){
+      if(!ctx) return;
+      ctx.clearRect(0,0,pCanvas.width,pCanvas.height);
+      ctx.fillStyle = '#05050F';
+      ctx.fillRect(0,0,pCanvas.width,pCanvas.height);
+      parts.forEach(p => {
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.radius, 0, Math.PI*2);
+        ctx.fillStyle = `rgba(0,200,255,${p.alpha})`;
+        ctx.fill();
+        p.x += p.speedX; p.y += p.speedY;
+        if(p.x<0) p.x=pCanvas.width; if(p.x>pCanvas.width) p.x=0;
+        if(p.y<0) p.y=pCanvas.height; if(p.y>pCanvas.height) p.y=0;
+      });
+      requestAnimationFrame(animateParts);
+    }
+    window.addEventListener('resize', () => { resizeCanvas(); initParts(); });
+    resizeCanvas(); initParts(); animateParts();
+  }
+  
+  // Mobile menu toggle
+  const mobileToggle = document.getElementById('mobile-menu');
+  const navMenu = document.getElementById('nav-links');
+  if(mobileToggle && navMenu){
+    mobileToggle.addEventListener('click', (e) => { e.stopPropagation(); navMenu.classList.toggle('active'); });
+    document.querySelectorAll('.nav-links a').forEach(anchor => {
+      anchor.addEventListener('click', (e) => {
+        e.preventDefault();
+        const targetId = anchor.getAttribute('href').substring(1);
+        const targetElem = document.getElementById(targetId);
+        if(targetElem) targetElem.scrollIntoView({ behavior: 'smooth' });
+        navMenu.classList.remove('active');
+      });
+    });
+  }
+  
+  // CURSOR FIX - proper custom cursor movement for desktop
+  if(window.innerWidth >= 1024){
+    const cursor = document.querySelector('.cursor');
+    const follower = document.querySelector('.cursor-follower');
+    if(cursor && follower){
+      document.addEventListener('mousemove', (e) => {
+        cursor.style.transform = `translate(${e.clientX - 6}px, ${e.clientY - 6}px)`;
+        follower.style.transform = `translate(${e.clientX - 16}px, ${e.clientY - 16}px)`;
+      });
+      document.addEventListener('mouseleave', () => {
+        cursor.style.opacity = '0';
+        follower.style.opacity = '0';
+      });
+      document.addEventListener('mouseenter', () => {
+        cursor.style.opacity = '1';
+        follower.style.opacity = '1';
+      });
+      // hover effect for interactive elements
+      const interactive = document.querySelectorAll('a, button, .btn, .gallery-img, .video-card, .download-btn, .like-btn');
+      interactive.forEach(el => {
+        el.addEventListener('mouseenter', () => { cursor.style.transform = `scale(1.8)`; follower.style.transform = `scale(1.5)`; follower.style.borderColor = '#ff33cc'; });
+        el.addEventListener('mouseleave', () => { cursor.style.transform = `scale(1)`; follower.style.transform = `scale(1)`; follower.style.borderColor = '#00f7ff'; });
+      });
+    }
+  }
+})();
+</script>
+</body>
+</html>
